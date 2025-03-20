@@ -1,9 +1,10 @@
 import axios from "axios";
-import imageFile from "../utils/imageFile";
-export async function removeBg(imageFile) {
-  const apiKey = "YOURjiy7Cnznqu685S4eq5fLXxwx";
+
+export async function removeBg(image: File): Promise<string | null> {
+  const apiKey = "jiy7Cnznqu685S4eq5fLXxwx";
+
   const formData = new FormData();
-  formData.append("image_file", imageFile);
+  formData.append("image_file", image);
   formData.append("size", "auto");
 
   try {
@@ -15,10 +16,12 @@ export async function removeBg(imageFile) {
           "X-Api-Key": apiKey,
           "Content-Type": "multipart/form-data",
         },
+        responseType: "arraybuffer", // Important to handle binary data properly
       }
     );
 
-    return response.data.data_url; // Returns the URL of the processed image
+    const base64Image = Buffer.from(response.data, "binary").toString("base64");
+    return `data:image/png;base64,${base64Image}`;
   } catch (error) {
     console.error("Error removing background:", error);
     return null;
