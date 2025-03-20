@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function removeBg(image: File): Promise<string | null> {
-  const apiKey = "jiy7Cnznqu685S4eq5fLXxwx";
+  const apiKey = process.env.NEXT_PUBLIC_API_URL;
 
   const formData = new FormData();
   formData.append("image_file", image);
